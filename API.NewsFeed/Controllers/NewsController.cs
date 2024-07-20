@@ -10,7 +10,6 @@ namespace API.NewsFeed.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
-        //https://rssapi.baxterpearson.co.uk/api/news/f1news
         [HttpGet]
         [Route("f1news")]
         public IEnumerable<Item> GetF1News()
@@ -56,10 +55,13 @@ namespace API.NewsFeed.Controllers
             return result ?? new List<Item>();
         }
 
-        // POST api/<NewsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+
+        [HttpGet]
+        [Route("ping")]
+        public IActionResult GetPing()
         {
+            return Ok();
         }
+
     }
 }
