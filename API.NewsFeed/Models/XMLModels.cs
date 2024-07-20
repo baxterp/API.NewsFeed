@@ -52,9 +52,6 @@ namespace API.NewsFeed.Models
 
         [XmlAttribute("type")]
         public string Type { get; set; }
-
-        [XmlAttribute("length")]
-        public long Length { get; set; }
     }
 
 }
