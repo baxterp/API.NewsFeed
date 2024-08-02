@@ -91,7 +91,7 @@ namespace API.NewsFeed.Controllers
         [Route("fashionnews")]
         public async Task<IActionResult> GetFashionNews()
         {
-            string cacheKey = "MotoGPNews";
+            string cacheKey = "FashionNews";
             if (!_cache.TryGetValue(cacheKey, out List<Item> result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
