@@ -1,22 +1,27 @@
 ﻿using API.NewsFeed.Models;
 using AutoMapper;
+using System.Collections.Concurrent;
+using System.Threading;
 
 namespace API.NewsFeed.Helpers
 {
     public static class XMLtoJSONMapper
     {
-        public static RssFeed MapXMLtoJSON(XMLRssFeed XMLRssFeed, string category)
+        public static async Task<RssFeed> MapXMLtoJSON(XMLRssFeed XMLRssFeed, string category)
         {
             RssFeed rssFeed = new RssFeed();
             rssFeed.Channel = new Channel();
             rssFeed.Channel.Title = XMLRssFeed.Channel.Title;
             rssFeed.Channel.Link = XMLRssFeed.Channel.Link;
             rssFeed.Channel.PubDate = XMLRssFeed.Channel.PubDate;
+            var items = new ConcurrentBag<Item>();
+            CancellationTokenSource cts = new CancellationTokenSource();
+            CancellationToken token = cts.Token;
 
-            rssFeed.Channel.Items = new List<Item>();
-            foreach (var item in XMLRssFeed.Channel.Items)
+            await Parallel.ForEachAsync(XMLRssFeed.Channel.Items, new ParallelOptions { CancellationToken = token }, (item, ct) =>
             {
-                rssFeed.Channel.Items.Add(new Item
+                ct.ThrowIfCancellationRequested();
+                items.Add(new Item
                 {
                     Title = item.Title ?? string.Empty,
                     Link = item.Link ?? string.Empty,
@@ -25,7 +30,10 @@ namespace API.NewsFeed.Helpers
                     PubDate = item.PubDate ?? string.Empty,
                     ImageURL = item.Enclosure?.Url ?? string.Empty,
                 });
-            }
+                return ValueTask.CompletedTask; // Ensure the delegate is synchronous
+            });
+
+            rssFeed.Channel.Items = items.ToList();
             return rssFeed;
         }
     }
