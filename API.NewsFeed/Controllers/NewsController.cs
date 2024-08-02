@@ -1,6 +1,8 @@
 ﻿using API.NewsFeed.Helpers;
 using API.NewsFeed.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Concurrent;
 
 namespace API.NewsFeed.Controllers
 {
@@ -8,43 +10,81 @@ namespace API.NewsFeed.Controllers
     [ApiController]
     public class NewsController : ControllerBase
     {
+        private readonly IMemoryCache _cache;
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromDays(1);
+
+        public NewsController(IMemoryCache cache)
+        {
+            _cache = cache;
+        }
+
         [HttpGet]
         [Route("f1news")]
         public async Task<IActionResult> GetF1News()
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
+            string cacheKey = "F1News";
+            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
 
-            List<Item> result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
 
-            var orderedResult = result.OrderBy(o => o.PubDate).AsEnumerable();
-            return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult } });
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
         }
 
         [HttpGet]
         [Route("wecnews")]
         public async Task<IActionResult> GetWECNews()
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
+            string cacheKey = "WECNews";
+            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
 
-            List<Item> result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds);
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds) ?? new();
 
-            var orderedResult = result.OrderBy(o => o.PubDate).AsEnumerable();
-            return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult } });
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
         }
 
         [HttpGet]
         [Route("motogpnews")]
         public async Task<IActionResult> GetMotoGPNews()
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");
+            string cacheKey = "MotoGPNews";
+            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");
 
-            List<Item> result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds);
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds) ?? new();
 
-            var orderedResult = result.OrderBy(o => o.PubDate).AsEnumerable();
-            return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult } });
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
         }
 
         [HttpGet]
