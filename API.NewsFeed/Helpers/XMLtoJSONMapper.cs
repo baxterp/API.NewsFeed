@@ -21,13 +21,15 @@ namespace API.NewsFeed.Helpers
             await Parallel.ForEachAsync(XMLRssFeed.Channel.Items, new ParallelOptions { CancellationToken = token }, (item, ct) =>
             {
                 ct.ThrowIfCancellationRequested();
+                DateTime pubDate = DateTime.Now;
+                DateTime.TryParse(item.PubDate.ToString(), out pubDate);
                 items.Add(new Item
                 {
                     Title = item.Title ?? string.Empty,
                     Link = item.Link ?? string.Empty,
                     Description = item.Description ?? string.Empty,
                     Category = item.Category ?? category,
-                    PubDate = item.PubDate ?? string.Empty,
+                    PubDate = pubDate,
                     ImageURL = item.Enclosure?.Url ?? string.Empty,
                 });
                 return ValueTask.CompletedTask; // Ensure the delegate is synchronous

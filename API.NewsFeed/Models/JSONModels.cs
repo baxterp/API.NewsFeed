@@ -21,7 +21,7 @@ namespace API.NewsFeed.Models
         public string Link { get; set; }
         public string Description { get; set; }
         public string Category { get; set; }
-        public string PubDate { get; set; }
+        public DateTime PubDate { get; set; }
         public string ImageURL { get; set; }
     }
 

@@ -37,7 +37,7 @@ namespace API.NewsFeed.Controllers
 
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
         }
 
@@ -60,7 +60,7 @@ namespace API.NewsFeed.Controllers
 
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
         }
 
@@ -83,8 +83,54 @@ namespace API.NewsFeed.Controllers
 
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderBy(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
+        }
+
+        [HttpGet]
+        [Route("fashionnews")]
+        public async Task<IActionResult> GetFashionNews()
+        {
+            string cacheKey = "MotoGPNews";
+            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\FashionNews.txt");
+
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "FashionNews", feeds) ?? new();
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "FashionNews", orderedResult ?? new List<Item>() } });
+        }
+
+        [HttpGet]
+        [Route("cryptonews")]
+        public async Task<IActionResult> GetCryptoNews()
+        {
+            string cacheKey = "CryptoNews";
+            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
+
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
         }
 
         [HttpGet]

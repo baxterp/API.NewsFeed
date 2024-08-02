@@ -28,15 +28,20 @@ namespace API.NewsFeed.Helpers
                     Parallel.ForEach(rssFeed.Channel.Items, new ParallelOptions { CancellationToken = token }, item =>
                     {
                         token.ThrowIfCancellationRequested();
-                        concurrentItems.Add(new Item
+                        DateTime pubDate = DateTime.Now;
+                        DateTime.TryParse(item.PubDate.ToString("yyyy MM dd"), out pubDate);
+                        if (pubDate > DateTime.Now - new TimeSpan(28, 0, 0, 0))
                         {
-                            Title = item.Title ?? string.Empty,
-                            Link = item.Link ?? string.Empty,
-                            Description = item.Description ?? string.Empty,
-                            Category = item.Category ?? category,
-                            PubDate = item.PubDate ?? string.Empty,
-                            ImageURL = item.ImageURL ?? string.Empty,
-                        });
+                            concurrentItems.Add(new Item
+                            {
+                                Title = item.Title ?? string.Empty,
+                                Link = item.Link ?? string.Empty,
+                                Description = item.Description ?? string.Empty,
+                                Category = item.Category ?? category,
+                                PubDate = pubDate,
+                                ImageURL = item.ImageURL ?? string.Empty,
+                            });
+                        }
                     });
                 }
             });
