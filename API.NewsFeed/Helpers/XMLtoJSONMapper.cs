@@ -32,7 +32,7 @@ namespace API.NewsFeed.Helpers
                     PubDate = pubDate,
                     ImageURL = item.Enclosure?.Url ?? string.Empty,
                 });
-                return ValueTask.CompletedTask; // Ensure the delegate is synchronous
+                return ValueTask.CompletedTask;
             });
 
             rssFeed.Channel.Items = items.ToList();

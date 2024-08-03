@@ -21,7 +21,7 @@ namespace API.NewsFeed.Controllers
         [HttpGet]
         [Route("cryptonews")]
         [Route("cryptonews/{numberOfRecords}/{numberOfDays}")]
-        public async Task<IActionResult> GetCryptoNews(int numberOfRecords = 0, int numberOfDays = 0)
+        public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "CryptoNews" + numberOfRecords + numberOfDays;
             if (!_cache.TryGetValue(cacheKey, out List<Item> result))
@@ -41,11 +41,11 @@ namespace API.NewsFeed.Controllers
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
             if (numberOfRecords > 0)
-                orderedResult = orderedResult?.Take(numberOfRecords);
+                orderedResult = orderedResult?.Take((int)numberOfRecords);
             else if (numberOfDays > 0)
                 orderedResult = orderedResult?
-                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan(numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-            else
+                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            else if (numberOfRecords == null && numberOfDays == null)
                 orderedResult = orderedResult?.Take(10);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
@@ -54,7 +54,7 @@ namespace API.NewsFeed.Controllers
         [HttpGet]
         [Route("f1news")]
         [Route("f1news/{numberOfRecords}/{numberOfDays}")]
-        public async Task<IActionResult> GetF1News(int numberOfRecords = 0, int numberOfDays = 0)
+        public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "F1News" + numberOfRecords + numberOfDays;
             if (!_cache.TryGetValue(cacheKey, out List<Item> result))
@@ -74,11 +74,11 @@ namespace API.NewsFeed.Controllers
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
             if (numberOfRecords > 0)
-                orderedResult = orderedResult?.Take(numberOfRecords);
+                orderedResult = orderedResult?.Take((int)numberOfRecords);
             else if (numberOfDays > 0)
                 orderedResult = orderedResult?
-                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan(numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-            else
+                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            else if (numberOfRecords == null && numberOfDays == null)
                 orderedResult = orderedResult?.Take(10);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
@@ -87,7 +87,7 @@ namespace API.NewsFeed.Controllers
         [HttpGet]
         [Route("wecnews")]
         [Route("wecnews/{numberOfRecords}/{numberOfDays}")]
-        public async Task<IActionResult> GetWECNews(int numberOfRecords = 0, int numberOfDays = 0)
+        public async Task<IActionResult> GetWECNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "WECNews" + numberOfRecords + numberOfDays;
             if (!_cache.TryGetValue(cacheKey, out List<Item> result))
@@ -107,11 +107,11 @@ namespace API.NewsFeed.Controllers
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
             if (numberOfRecords > 0)
-                orderedResult = orderedResult?.Take(numberOfRecords);
+                orderedResult = orderedResult?.Take((int)numberOfRecords);
             else if (numberOfDays > 0)
                 orderedResult = orderedResult?
-                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan(numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-            else
+                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            else if (numberOfRecords == null && numberOfDays == null)
                 orderedResult = orderedResult?.Take(10);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
@@ -120,7 +120,7 @@ namespace API.NewsFeed.Controllers
         [HttpGet]
         [Route("motogpnews")]
         [Route("motogpnews/{numberOfRecords}/{numberOfDays}")]
-        public async Task<IActionResult> GetMotoGPNews(int numberOfRecords = 0, int numberOfDays = 0)
+        public async Task<IActionResult> GetMotoGPNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "MotoGPNews" + numberOfRecords + numberOfDays;
             if (!_cache.TryGetValue(cacheKey, out List<Item> result))
@@ -140,11 +140,11 @@ namespace API.NewsFeed.Controllers
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
             if (numberOfRecords > 0)
-                orderedResult = orderedResult?.Take(numberOfRecords);
+                orderedResult = orderedResult?.Take((int)numberOfRecords);
             else if (numberOfDays > 0)
                 orderedResult = orderedResult?
-                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan(numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
-            else
+                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            else if (numberOfRecords == null && numberOfDays == null)
                 orderedResult = orderedResult?.Take(10);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
