@@ -2,6 +2,7 @@
 using API.NewsFeed.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
+using OpenAI_API.Chat;
 using System.Collections.Concurrent;
 
 namespace API.NewsFeed.Controllers
@@ -158,3 +159,27 @@ namespace API.NewsFeed.Controllers
         }
     }
 }
+
+
+
+//[HttpPost]
+//[Route("gettranslation")]
+//public IActionResult GetTranslation([FromBody] List<string> prompts)
+//{
+//    var languageFrom = prompts[0];
+//    var languageTo = prompts[1];
+//    var textToTranslate = prompts[2];
+
+//    OpenAIHelper openAIHelper = new OpenAIHelper();
+//    string systemPrompt = "You will be provided with a sentence in "
+//        + languageFrom + ", and your task is to translate it into "
+//        + languageTo;
+//    string userPrompt = textToTranslate;
+
+//    var systemMessage = new ChatMessage(ChatMessageRole.System, systemPrompt);
+//    var userMessages = new List<ChatMessage> { new ChatMessage(ChatMessageRole.User, userPrompt) };
+
+//    var textResponse = openAIHelper.GetReponseFromPrompts(systemMessage, userMessages);
+
+//    return Json(textResponse);
+//}
