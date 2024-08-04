@@ -18,6 +18,9 @@ namespace API.NewsFeed.Controllers
             var languageTo = prompts[1];
             var textToTranslate = prompts[2];
 
+            if(textToTranslate.Length > 5000)
+                return StatusCode(StatusCodes.Status413RequestEntityTooLarge);
+
             OpenAIHelper openAIHelper = new OpenAIHelper();
             string systemPrompt = "You will be provided with a sentence in "
                 + languageFrom + ", and your task is to translate it into "
