@@ -9,10 +9,11 @@ namespace API.NewsFeed.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DocumentController : ControllerBase
+    public class DocumentUploadController : ControllerBase
     {
-        [HttpPost("WordDocSummerise")]
-        public async Task<IActionResult> WordDocSummerise(List<IFormFile> files)
+        //https://rssapi.baxterpearson.co.uk/api/documentupload/
+        [HttpPost("WordDocSummarize")]
+        public async Task<IActionResult> WordDocSummarize(List<IFormFile> files)
         {
             if (files == null || files.Count == 0)
                 return BadRequest("No files were uploaded");
@@ -43,6 +44,13 @@ namespace API.NewsFeed.Controllers
             var textResponse = await openAIHelper.GetReponseFromPrompts(systemMessage, userMessages);
 
             return Ok(textResponse);
+        }
+
+        [HttpGet]
+        [Route("ping")]
+        public IActionResult GetPing()
+        {
+            return Ok();
         }
     }
 }
