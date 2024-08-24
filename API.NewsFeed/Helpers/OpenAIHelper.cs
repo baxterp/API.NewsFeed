@@ -24,7 +24,7 @@ namespace API.NewsFeed.Helpers
             }
         }
 
-        public string GetReponseFromPrompts(ChatMessage systemPrompt, List<ChatMessage> userPrompts)
+        public async Task<string> GetReponseFromPrompts(ChatMessage systemPrompt, List<ChatMessage> userPrompts)
         {
             try
             {
@@ -41,7 +41,7 @@ namespace API.NewsFeed.Helpers
                     Messages = combinedMessages.ToArray()
                 };
 
-                var completionResult = Task.Run(() => openAiApi.Chat.CreateChatCompletionAsync(completionRequest)).Result;
+                var completionResult = await openAiApi.Chat.CreateChatCompletionAsync(completionRequest);
                 var generatedText = completionResult.Choices[0].Message.TextContent;
 
                 return generatedText;

@@ -12,7 +12,7 @@ namespace API.NewsFeed.Controllers
         //https://rssapi.baxterpearson.co.uk/api/translation/gettranslation
         [HttpPost]
         [Route("gettranslation")]
-        public IActionResult GetTranslation([FromBody] List<string> prompts)
+        public async Task<IActionResult> GetTranslation([FromBody] List<string> prompts)
         {
             var languageFrom = prompts[0];
             var languageTo = prompts[1];
@@ -30,7 +30,7 @@ namespace API.NewsFeed.Controllers
             var systemMessage = new ChatMessage(ChatMessageRole.System, systemPrompt);
             var userMessages = new List<ChatMessage> { new ChatMessage(ChatMessageRole.User, userPrompt) };
 
-            var textResponse = openAIHelper.GetReponseFromPrompts(systemMessage, userMessages);
+            var textResponse = await openAIHelper.GetReponseFromPrompts(systemMessage, userMessages);
 
             return Ok(textResponse);
         }
