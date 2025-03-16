@@ -11,14 +11,13 @@ namespace API.NewsFeed.Controllers
     [ApiController]
     public class DocumentUploadController : ControllerBase
     {
-        //https://rssapi.baxterpearson.co.uk/api/documentupload/
-        [HttpPost("WordDocSummarize")]
-        public async Task<IActionResult> WordDocSummarize(List<IFormFile> files)
+        //https://rssapi.baxterpearson.co.uk/api/documentupload/WordDocSummarize
+        [HttpPost]
+        [Route("WordDocSummarize")]
+        public async Task<IActionResult> WordDocSummarize(IFormFile file)
         {
-            if (files == null || files.Count == 0)
+            if (file == null)
                 return BadRequest("No files were uploaded");
-
-            IFormFile file = files[0];
 
             Document document = new Document();
             using (var stream = file.OpenReadStream())
@@ -42,8 +41,9 @@ namespace API.NewsFeed.Controllers
             var userMessages = new List<ChatMessage> { new ChatMessage(ChatMessageRole.User, userPrompt) };
 
             var textResponse = await openAIHelper.GetReponseFromPrompts(systemMessage, userMessages);
+            var response = new { data = textResponse };
 
-            return Ok(textResponse);
+            return Ok(response);
         }
 
         [HttpGet]
