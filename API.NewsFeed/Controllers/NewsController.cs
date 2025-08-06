@@ -25,7 +25,7 @@ namespace API.NewsFeed.Controllers
         public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "CryptoNews" + numberOfRecords + numberOfDays;
-            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
@@ -50,6 +50,7 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?.Take(10);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
+
         }
 
         [HttpGet]
@@ -58,7 +59,7 @@ namespace API.NewsFeed.Controllers
         public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "F1News" + numberOfRecords + numberOfDays;
-            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
@@ -91,7 +92,7 @@ namespace API.NewsFeed.Controllers
         public async Task<IActionResult> GetWECNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "WECNews" + numberOfRecords + numberOfDays;
-            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
@@ -124,7 +125,7 @@ namespace API.NewsFeed.Controllers
         public async Task<IActionResult> GetMotoGPNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             string cacheKey = "MotoGPNews" + numberOfRecords + numberOfDays;
-            if (!_cache.TryGetValue(cacheKey, out List<Item> result))
+            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");

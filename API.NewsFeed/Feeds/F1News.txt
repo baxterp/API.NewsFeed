@@ -2,3 +2,10 @@
 https://www.motorsport.com/rss/f1/news/
 https://www.fia.com/rss/news
 https://www.fia.com/rss/press-release
+https://racer.com/f1/feed
+https://joesaward.wordpress.com/feed/
+https://www.f1technical.net/rss/news.xml
+https://feeds.feedburner.com/totalf1-recent
+https://www.mirror.co.uk/sport/formula-1/?service=rss
+https://f1destinations.com/feed/
+https://www.newsonf1.com/feed/
