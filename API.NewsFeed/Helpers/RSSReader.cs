@@ -19,7 +19,7 @@ namespace API.NewsFeed.Helpers
             await Parallel.ForEachAsync(feeds, new ParallelOptions { CancellationToken = cancellationToken }, async (feed, token) =>
             {
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-                timeoutCts.CancelAfter(500);
+                timeoutCts.CancelAfter(600);
 
                 try
                 {
@@ -50,7 +50,7 @@ namespace API.NewsFeed.Helpers
                         });
                     }
                 }
-                catch (OperationCanceledException)
+                catch (OperationCanceledException ex)
                 {
                     // Timeout or cancellation occurred, skip this feed
                 }

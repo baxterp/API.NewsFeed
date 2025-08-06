@@ -24,7 +24,7 @@ namespace API.NewsFeed.Controllers
         [Route("cryptonews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "CryptoNews" + numberOfRecords + numberOfDays;
+            string cacheKey = "CryptoNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -47,7 +47,7 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
-                orderedResult = orderedResult?.Take(10);
+                orderedResult = orderedResult?.Take(5);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
 
@@ -58,7 +58,7 @@ namespace API.NewsFeed.Controllers
         [Route("f1news/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "F1News" + numberOfRecords + numberOfDays;
+            string cacheKey = "F1News" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -81,7 +81,7 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
-                orderedResult = orderedResult?.Take(10);
+                orderedResult = orderedResult?.Take(5);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
         }
@@ -91,7 +91,7 @@ namespace API.NewsFeed.Controllers
         [Route("wecnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetWECNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "WECNews" + numberOfRecords + numberOfDays;
+            string cacheKey = "WECNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -114,7 +114,7 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
-                orderedResult = orderedResult?.Take(10);
+                orderedResult = orderedResult?.Take(5);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
         }
@@ -124,7 +124,7 @@ namespace API.NewsFeed.Controllers
         [Route("motogpnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetMotoGPNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "MotoGPNews" + numberOfRecords + numberOfDays;
+            string cacheKey = "MotoGPNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -147,7 +147,7 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
-                orderedResult = orderedResult?.Take(10);
+                orderedResult = orderedResult?.Take(5);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
         }
