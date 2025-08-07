@@ -12,7 +12,7 @@ namespace API.NewsFeed.Controllers
     public class NewsController : ControllerBase
     {
         private readonly IMemoryCache _cache;
-        private static readonly TimeSpan CacheDuration = TimeSpan.FromDays(1);
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromHours(6);
 
         public NewsController(IMemoryCache cache)
         {
@@ -24,7 +24,7 @@ namespace API.NewsFeed.Controllers
         [Route("cryptonews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "CryptoNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
+            string cacheKey = "CryptoNews" + DateTime.Now.ToString("yyyyMMdd");
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -58,7 +58,7 @@ namespace API.NewsFeed.Controllers
         [Route("f1news/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "F1News" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
+            string cacheKey = "F1News" + DateTime.Now.ToString("yyyyMMdd");
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -91,7 +91,7 @@ namespace API.NewsFeed.Controllers
         [Route("wecnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetWECNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "WECNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
+            string cacheKey = "WECNews" + DateTime.Now.ToString("yyyyMMdd");
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -124,7 +124,7 @@ namespace API.NewsFeed.Controllers
         [Route("motogpnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetMotoGPNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "MotoGPNews" + (numberOfRecords ?? 999) + (numberOfDays ?? 999);
+            string cacheKey = "MotoGPNews" + DateTime.Now.ToString("yyyyMMdd");
             if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
