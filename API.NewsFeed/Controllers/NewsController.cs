@@ -24,20 +24,15 @@ namespace API.NewsFeed.Controllers
         [Route("cryptonews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "CryptoNews" + DateTime.Now.ToString("yyyyMMdd");
-            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+            var result = JsonToFileHelper.ReadJsonFromFile("CryptoNews" + numberOfRecords + numberOfDays);
+            if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
 
                 result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = CacheDuration
-                };
-
-                _cache.Set(cacheKey, result, cacheEntryOptions);
+                JsonToFileHelper.WriteJsonToFile("CryptoNews" + numberOfRecords + numberOfDays, result);
             }
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
@@ -50,7 +45,6 @@ namespace API.NewsFeed.Controllers
                 orderedResult = orderedResult?.Take(5);
 
             return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
-
         }
 
         [HttpGet]
@@ -58,20 +52,15 @@ namespace API.NewsFeed.Controllers
         [Route("f1news/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "F1News" + DateTime.Now.ToString("yyyyMMdd");
-            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+            var result = JsonToFileHelper.ReadJsonFromFile("F1News" + numberOfRecords + numberOfDays);
+            if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
 
                 result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = CacheDuration
-                };
-
-                _cache.Set(cacheKey, result, cacheEntryOptions);
+                JsonToFileHelper.WriteJsonToFile("F1News" + numberOfRecords + numberOfDays, result);
             }
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
@@ -91,20 +80,15 @@ namespace API.NewsFeed.Controllers
         [Route("wecnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetWECNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "WECNews" + DateTime.Now.ToString("yyyyMMdd");
-            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+            var result = JsonToFileHelper.ReadJsonFromFile("WEC" + numberOfRecords + numberOfDays);
+            if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds) ?? new();
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds);
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = CacheDuration
-                };
-
-                _cache.Set(cacheKey, result, cacheEntryOptions);
+                JsonToFileHelper.WriteJsonToFile("WEC" + numberOfRecords + numberOfDays, result);
             }
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
@@ -124,20 +108,15 @@ namespace API.NewsFeed.Controllers
         [Route("motogpnews/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetMotoGPNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
-            string cacheKey = "MotoGPNews" + DateTime.Now.ToString("yyyyMMdd");
-            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+            var result = JsonToFileHelper.ReadJsonFromFile("MotoGP" + numberOfRecords + numberOfDays);
+            if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds) ?? new();
+                result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds);
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = CacheDuration
-                };
-
-                _cache.Set(cacheKey, result, cacheEntryOptions);
+                JsonToFileHelper.WriteJsonToFile("MotoGP" + numberOfRecords + numberOfDays, result);
             }
             var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
@@ -184,3 +163,38 @@ namespace API.NewsFeed.Controllers
 
 //    return Json(textResponse);
 //}
+
+//[HttpGet]
+//[Route("cryptonews")]
+//[Route("cryptonews/{numberOfRecords}/{numberOfDays}")]
+//public async Task<IActionResult> GetCryptoNews(int? numberOfRecords = null, int? numberOfDays = null)
+//{
+//    string cacheKey = "CryptoNews" + DateTime.Now.ToString("yyyyMMdd");
+//    if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+//    {
+//        string currentDirectory = Directory.GetCurrentDirectory();
+//        IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
+
+//        result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
+
+//        var cacheEntryOptions = new MemoryCacheEntryOptions
+//        {
+//            AbsoluteExpirationRelativeToNow = CacheDuration
+//        };
+
+//        _cache.Set(cacheKey, result, cacheEntryOptions);
+//    }
+//    var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+
+//    if (numberOfRecords > 0)
+//        orderedResult = orderedResult?.Take((int)numberOfRecords);
+//    else if (numberOfDays > 0)
+//        orderedResult = orderedResult?
+//            .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+//    else if (numberOfRecords == null && numberOfDays == null)
+//        orderedResult = orderedResult?.Take(5);
+
+//    return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
+
+//}
+
