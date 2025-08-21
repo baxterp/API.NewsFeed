@@ -7,9 +7,6 @@ namespace API.NewsFeed.Helpers
         public static List<Item>? ReadJsonFromFile(string feedName, string folderName = "CachedJsonData")
         {
             var filePath = $"{folderName}/{feedName}.json";
-            if (GetFileAgeInHours(filePath) >= 6)
-                File.Delete(filePath);
-
             if (!File.Exists(filePath))
                 return null;
 

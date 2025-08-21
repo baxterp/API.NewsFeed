@@ -17,7 +17,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("CryptoNews");
+                var result = JsonToFileHelper.ReadJsonFromFile("CryptoNews", "CachedJsonDataExtended");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -26,7 +26,7 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(5);
+                    orderedResult = orderedResult?.Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
             }
@@ -43,7 +43,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("F1News");
+                var result = JsonToFileHelper.ReadJsonFromFile("F1News", "CachedJsonDataExtended");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -69,7 +69,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("WEC");
+                var result = JsonToFileHelper.ReadJsonFromFile("WEC", "CachedJsonDataExtended");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -95,7 +95,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("MotoGP");
+                var result = JsonToFileHelper.ReadJsonFromFile("MotoGP", "CachedJsonDataExtended");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)

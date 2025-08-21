@@ -16,7 +16,7 @@ namespace API.NewsFeed.Helpers
             CancellationTokenSource cts = new();
             CancellationToken cancellationToken = cts.Token;
 
-            await Parallel.ForEachAsync(feeds.TakeWhile(_ => concurrentItems.Count <= 100), 
+            await Parallel.ForEachAsync(feeds.TakeWhile(_ => concurrentItems.Count <= 200), 
                 new ParallelOptions { CancellationToken = cancellationToken }, async (feed, token) =>
             {
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
