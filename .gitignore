@@ -365,3 +365,5 @@ FodyWeavers.xsd
 /API.NewsFeed/MotoGP00.json
 /API.NewsFeed/WEC.json
 /API.NewsFeed/WEC00.json
+/API.NewsFeed/CachedJsonData
+/API.NewsFeed/CachedJsonDataExtended

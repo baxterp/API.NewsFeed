@@ -31,4 +31,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CachedJsonData\" />
+    <Folder Include="CachedJsonDataExtended\" />
+  </ItemGroup>
+
 </Project>

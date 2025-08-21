@@ -4,10 +4,9 @@ namespace API.NewsFeed.Helpers
 {
     public static class JsonToFileHelper
     {
-        public static List<Item>? ReadJsonFromFile(string feedName)
+        public static List<Item>? ReadJsonFromFile(string feedName, string folderName = "CachedJsonData")
         {
-            var filePath = $"{feedName}.json";
-
+            var filePath = $"{folderName}/{feedName}.json";
             if (GetFileAgeInHours(filePath) >= 6)
                 File.Delete(filePath);
 
@@ -18,9 +17,9 @@ namespace API.NewsFeed.Helpers
             return System.Text.Json.JsonSerializer.Deserialize<List<Item>>(jsonContent) ?? null;
         }
 
-        public static void WriteJsonToFile(string feedName, List<Item> items)
+        public static void WriteJsonToFile(string feedName, List<Item> items, string folderName = "CachedJsonData")
         {
-            var filePath = $"{feedName}.json";
+            var filePath = $"{folderName}/{feedName}.json";
             string jsonContent = System.Text.Json.JsonSerializer.Serialize(items);
             File.WriteAllText(filePath, jsonContent);
         }
