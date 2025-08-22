@@ -4,9 +4,23 @@ namespace API.NewsFeed.Helpers
 {
     public static class JsonToFileHelper
     {
-        public static List<Item>? ReadJsonFromFile(string feedName, string folderName = "CachedJsonData")
+        public static List<Item>? ReadJsonFromFile(string feedName)
         {
-            var filePath = $"{folderName}/{feedName}.json";
+            var filePath = $"{"CachedJsonData"}/{feedName}.json";
+            if (!File.Exists(filePath))
+                return null;
+
+            string jsonContent = File.ReadAllText(filePath);
+
+            if (GetFileAgeInHours(filePath) > 6)
+                File.Delete(filePath);
+
+            return System.Text.Json.JsonSerializer.Deserialize<List<Item>>(jsonContent) ?? null;
+        }
+
+        public static List<Item>? ReadJsonFromFileForCach(string feedName)
+        {
+            var filePath = $"{"CachedJsonDataExtended"}/{feedName}.json";
             if (!File.Exists(filePath))
                 return null;
 

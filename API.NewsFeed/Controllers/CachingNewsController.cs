@@ -13,7 +13,7 @@ namespace API.NewsFeed.Controllers
         [Route("cryptonews")]
         public async Task<IActionResult> GetCryptoNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFile("CryptoNews", "CachedJsonDataExtended");
+            var result = JsonToFileHelper.ReadJsonFromFileForCach("CryptoNews");
             if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -30,7 +30,7 @@ namespace API.NewsFeed.Controllers
         [Route("f1news")]
         public async Task<IActionResult> GetF1News()
         {
-            var result = JsonToFileHelper.ReadJsonFromFile("F1News", "CachedJsonDataExtended");
+            var result = JsonToFileHelper.ReadJsonFromFileForCach("F1News");
             if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -47,7 +47,7 @@ namespace API.NewsFeed.Controllers
         [Route("wecnews")]
         public async Task<IActionResult> GetWECNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFile("WEC", "CachedJsonDataExtended");
+            var result = JsonToFileHelper.ReadJsonFromFileForCach("WEC");
             if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
@@ -64,7 +64,7 @@ namespace API.NewsFeed.Controllers
         [Route("motogpnews")]
         public async Task<IActionResult> GetMotoGPNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFile("MotoGP", "CachedJsonDataExtended");
+            var result = JsonToFileHelper.ReadJsonFromFileForCach("MotoGP");
             if (result == null)
             {
                 string currentDirectory = Directory.GetCurrentDirectory();

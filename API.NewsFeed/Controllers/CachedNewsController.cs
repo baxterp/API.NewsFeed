@@ -17,7 +17,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("CryptoNews", "CachedJsonDataExtended");
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("CryptoNews");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -43,7 +43,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("F1News", "CachedJsonDataExtended");
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("F1News");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -52,7 +52,7 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(5);
+                    orderedResult = orderedResult?.Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
             }
@@ -69,7 +69,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("WEC", "CachedJsonDataExtended");
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("WEC");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -78,7 +78,7 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(5);
+                    orderedResult = orderedResult?.Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
             }
@@ -95,7 +95,7 @@ namespace API.NewsFeed.Controllers
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFile("MotoGP", "CachedJsonDataExtended");
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("MotoGP");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
 
                 if (numberOfRecords > 0)
@@ -104,7 +104,7 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(5);
+                    orderedResult = orderedResult?.Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
             }

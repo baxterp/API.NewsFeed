@@ -31,7 +31,7 @@ namespace API.NewsFeed.Helpers
                         XMLRssFeed rss = XMLParser.ParseXml(xmlData);
                         RssFeed rssFeed = await XMLtoJSONMapper.MapXMLtoJSON(rss, category);
 
-                        Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 100), 
+                        Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 200), 
                             new ParallelOptions { CancellationToken = token }, item =>
                         {
                             token.ThrowIfCancellationRequested();
@@ -43,7 +43,7 @@ namespace API.NewsFeed.Helpers
                                 {
                                     Title = item.Title ?? string.Empty,
                                     Link = item.Link ?? string.Empty,
-                                    Description = item.Description ?? string.Empty,
+                                    Description = item.Description.Contains("<") ? string.Empty : item.Description,
                                     Category = item.Category ?? category,
                                     PubDate = pubDate,
                                     ImageURL = item.ImageURL ?? string.Empty,
