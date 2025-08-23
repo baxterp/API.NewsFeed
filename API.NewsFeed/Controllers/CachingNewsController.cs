@@ -20,6 +20,9 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
 
                 result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
 
                 JsonToFileHelper.WriteJsonToFile("CryptoNews", result, "CachedJsonDataExtended");
             }

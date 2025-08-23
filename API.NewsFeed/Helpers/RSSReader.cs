@@ -16,11 +16,11 @@ namespace API.NewsFeed.Helpers
             CancellationTokenSource cts = new();
             CancellationToken cancellationToken = cts.Token;
 
-            await Parallel.ForEachAsync(feeds.TakeWhile(_ => concurrentItems.Count <= 200), 
+            await Parallel.ForEachAsync(feeds.TakeWhile(_ => concurrentItems.Count <= 300), 
                 new ParallelOptions { CancellationToken = cancellationToken }, async (feed, token) =>
             {
                 using var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(token);
-                timeoutCts.CancelAfter(600);
+                timeoutCts.CancelAfter(2000);
 
                 try
                 {
@@ -31,7 +31,7 @@ namespace API.NewsFeed.Helpers
                         XMLRssFeed rss = XMLParser.ParseXml(xmlData);
                         RssFeed rssFeed = await XMLtoJSONMapper.MapXMLtoJSON(rss, category);
 
-                        Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 200), 
+                        Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 300), 
                             new ParallelOptions { CancellationToken = token }, item =>
                         {
                             token.ThrowIfCancellationRequested();

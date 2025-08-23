@@ -5,3 +5,11 @@ https://joesaward.wordpress.com/feed/
 https://www.f1technical.net/rss/news.xml
 https://feeds.feedburner.com/totalf1-recent
 https://www.mirror.co.uk/sport/formula-1/?service=rss
+https://racer.com/f1/feed
+https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/topic/organization/formula-one/rss.xml
+https://www.f1technical.net/rss/news.xml
+http://www.f1reader.com/rss/f1r
+https://f1destinations.com/feed/
+https://motorsportbroadcasting.com/feed/
+https://www.motor1.com/rss/category/motorsport/
+https://www.sportsmole.co.uk/formula-1/rss.xml

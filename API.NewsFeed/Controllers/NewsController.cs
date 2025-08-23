@@ -44,11 +44,13 @@ namespace API.NewsFeed.Controllers
                 };
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                .ThenByDescending(t => t.Description != string.Empty)
+                                .AsEnumerable();
 
-            if (numberOfRecords > 0)
+            if (numberOfRecords is > 0)
                 orderedResult = orderedResult?.Take((int)numberOfRecords);
-            else if (numberOfDays > 0)
+            else if (numberOfDays is > 0)
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
@@ -82,11 +84,13 @@ namespace API.NewsFeed.Controllers
                 };
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                .ThenByDescending(t => t.Description != string.Empty)
+                                .AsEnumerable();
 
-            if (numberOfRecords > 0)
+            if (numberOfRecords is > 0)
                 orderedResult = orderedResult?.Take((int)numberOfRecords);
-            else if (numberOfDays > 0)
+            else if (numberOfDays is > 0)
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
@@ -120,11 +124,13 @@ namespace API.NewsFeed.Controllers
                 };
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                .ThenByDescending(t => t.Description != string.Empty)
+                                .AsEnumerable();
 
-            if (numberOfRecords > 0)
+            if (numberOfRecords is > 0)
                 orderedResult = orderedResult?.Take((int)numberOfRecords);
-            else if (numberOfDays > 0)
+            else if (numberOfDays is > 0)
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
@@ -158,11 +164,13 @@ namespace API.NewsFeed.Controllers
                 };
                 _cache.Set(cacheKey, result, cacheEntryOptions);
             }
-            var orderedResult = result?.OrderByDescending(o => o.PubDate).AsEnumerable();
+            var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                .ThenByDescending(t => t.Description != string.Empty)
+                                .AsEnumerable();
 
-            if (numberOfRecords > 0)
+            if (numberOfRecords is > 0)
                 orderedResult = orderedResult?.Take((int)numberOfRecords);
-            else if (numberOfDays > 0)
+            else if (numberOfDays is > 0)
                 orderedResult = orderedResult?
                     .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
             else if (numberOfRecords == null && numberOfDays == null)
