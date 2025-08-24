@@ -13,71 +13,96 @@ namespace API.NewsFeed.Controllers
         [Route("cryptonews")]
         public async Task<IActionResult> GetCryptoNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFileForCach("CryptoNews");
-            if (result == null)
+            try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
                 result = result?.OrderByDescending(o => o.PubDate)
                     .ThenByDescending(t => t.Description != string.Empty)
                     .AsEnumerable().ToList() ?? new();
 
                 JsonToFileHelper.WriteJsonToFile("CryptoNews", result, "CachedJsonDataExtended");
+
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet]
         [Route("f1news")]
         public async Task<IActionResult> GetF1News()
         {
-            var result = JsonToFileHelper.ReadJsonFromFileForCach("F1News");
-            if (result == null)
+            try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
 
                 JsonToFileHelper.WriteJsonToFile("F1News", result, "CachedJsonDataExtended");
+
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet]
         [Route("wecnews")]
         public async Task<IActionResult> GetWECNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFileForCach("WEC");
-            if (result == null)
+            try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds);
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds);
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
 
                 JsonToFileHelper.WriteJsonToFile("WEC", result, "CachedJsonDataExtended");
+
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet]
         [Route("motogpnews")]
         public async Task<IActionResult> GetMotoGPNews()
         {
-            var result = JsonToFileHelper.ReadJsonFromFileForCach("MotoGP");
-            if (result == null)
+            try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");
 
-                result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds);
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds);
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
 
                 JsonToFileHelper.WriteJsonToFile("MotoGP", result, "CachedJsonDataExtended");
+
+                return Ok();
             }
-            return Ok();
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
 
         [HttpGet]

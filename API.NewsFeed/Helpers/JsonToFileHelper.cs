@@ -31,6 +31,7 @@ namespace API.NewsFeed.Helpers
         public static void WriteJsonToFile(string feedName, List<Item> items, string folderName = "CachedJsonData")
         {
             var filePath = $"{folderName}/{feedName}.json";
+            File.Delete(filePath);
             string jsonContent = System.Text.Json.JsonSerializer.Serialize(items);
             File.WriteAllText(filePath, jsonContent);
         }
