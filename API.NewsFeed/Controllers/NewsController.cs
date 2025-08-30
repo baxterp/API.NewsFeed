@@ -60,6 +60,46 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
+        [Route("premnews")]
+        [Route("premnews/{numberOfRecords}/{numberOfDays}")]
+        public async Task<IActionResult> GetPremierLeagueNews(int? numberOfRecords = null, int? numberOfDays = null)
+        {
+            string cacheKey = "PremNews" + DateTime.Now.ToString("yyyyMMMdd");
+            if (!_cache.TryGetValue(cacheKey, out List<Item>? result))
+            {
+                result = JsonToFileHelper.ReadJsonFromFile("PremNews" + numberOfRecords + numberOfDays);
+                if (result == null)
+                {
+                    string currentDirectory = Directory.GetCurrentDirectory();
+                    IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\PremNews.txt");
+
+                    result = await RSSReader.ReadRSSFeeds(currentDirectory, "PremNews", feeds) ?? new();
+
+                    JsonToFileHelper.WriteJsonToFile("PremNews" + numberOfRecords + numberOfDays, result);
+                }
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions
+                {
+                    AbsoluteExpirationRelativeToNow = CacheDuration
+                };
+                _cache.Set(cacheKey, result, cacheEntryOptions);
+            }
+            var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                .ThenByDescending(t => t.Description != string.Empty)
+                                .AsEnumerable();
+
+            if (numberOfRecords is > 0)
+                orderedResult = orderedResult?.Take((int)numberOfRecords);
+            else if (numberOfDays is > 0)
+                orderedResult = orderedResult?
+                    .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+            else if (numberOfRecords == null && numberOfDays == null)
+                orderedResult = orderedResult?.Take(10);
+
+            return Ok(new Dictionary<string, IEnumerable<Item>> { { "PremNews", orderedResult ?? new List<Item>() } });
+        }
+
+        [HttpGet]
         [Route("f1news")]
         [Route("f1news/{numberOfRecords}/{numberOfDays}")]
         public async Task<IActionResult> GetF1News(int? numberOfRecords = null, int? numberOfDays = null)

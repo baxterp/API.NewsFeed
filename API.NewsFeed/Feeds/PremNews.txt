@@ -1,0 +1,12 @@
+﻿https://football-talk.co.uk/topics/premier-league/feed/
+https://betting.betfair.com/football/premier-league/index.xml
+https://talksport.com/football/premier-league/feed/
+https://feeds.bbci.co.uk/sport/football/rss.xml
+https://www.football-news-views.co.uk/premier-league-rss.xml
+https://www.eyefootball.com/rss_news_main.xml
+https://www.football-news-views.co.uk/arsenalrss.xml
+https://www.football-news-views.co.uk/chelsearss.xml
+https://www.football-news-views.co.uk/liverpoolrss.xml
+https://www.football-news-views.co.uk/manchester-cityrss.xml
+https://www.football-news-views.co.uk/manchester-unitedrss.xml
+https://www.football-news-views.co.uk/newcastle-unitedrss.xml

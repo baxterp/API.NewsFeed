@@ -34,6 +34,30 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
+        [Route("premnews")]
+        public async Task<IActionResult> GetPremierLeagueNews()
+        {
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\PremNews.txt");
+
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "PremNews", feeds) ?? new();
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
+
+                JsonToFileHelper.WriteJsonToFile("PremNews", result, "CachedJsonDataExtended");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("f1news")]
         public async Task<IActionResult> GetF1News()
         {
