@@ -130,6 +130,54 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
+        [Route("uknews")]
+        public async Task<IActionResult> GetUKNews()
+        {
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\UKNews.txt");
+
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "UKNews", feeds);
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
+
+                JsonToFileHelper.WriteJsonToFile("UKNews", result, "CachedJsonDataExtended");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
+        [Route("fashionnews")]
+        public async Task<IActionResult> GetFashionNews()
+        {
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\FashionNews.txt");
+
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "FashionNews", feeds);
+                result = result?.OrderByDescending(o => o.PubDate)
+                    .ThenByDescending(t => t.Description != string.Empty)
+                    .AsEnumerable().ToList() ?? new();
+
+                JsonToFileHelper.WriteJsonToFile("FashionNews", result, "CachedJsonDataExtended");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("ping")]
         public IActionResult GetPing()
         {

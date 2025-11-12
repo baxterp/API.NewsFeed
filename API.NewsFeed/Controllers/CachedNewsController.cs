@@ -151,6 +151,62 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
+        [Route("uknews")]
+        [Route("uknews/{numberOfRecords}/{numberOfDays}")]
+        public IActionResult GetUKNews(int? numberOfRecords = null, int? numberOfDays = null)
+        {
+            try
+            {
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("UKNews");
+                var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                    .ThenByDescending(t => t.Description != string.Empty)
+                                    .AsEnumerable();
+
+                if (numberOfRecords is > 0)
+                    orderedResult = orderedResult?.Take((int)numberOfRecords);
+                else if (numberOfDays is > 0)
+                    orderedResult = orderedResult?
+                        .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+                else if (numberOfRecords == null && numberOfDays == null)
+                    orderedResult = orderedResult?.Take(10);
+
+                return Ok(new Dictionary<string, IEnumerable<Item>> { { "UKNews", orderedResult ?? new List<Item>() } });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
+        }
+
+        [HttpGet]
+        [Route("fashionnews")]
+        [Route("fashionnews/{numberOfRecords}/{numberOfDays}")]
+        public IActionResult GetFashionNews(int? numberOfRecords = null, int? numberOfDays = null)
+        {
+            try
+            {
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("FashionNews");
+                var orderedResult = result?.OrderByDescending(o => o.PubDate)
+                                    .ThenByDescending(t => t.Description != string.Empty)
+                                    .AsEnumerable();
+
+                if (numberOfRecords is > 0)
+                    orderedResult = orderedResult?.Take((int)numberOfRecords);
+                else if (numberOfDays is > 0)
+                    orderedResult = orderedResult?
+                        .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
+                else if (numberOfRecords == null && numberOfDays == null)
+                    orderedResult = orderedResult?.Take(10);
+
+                return Ok(new Dictionary<string, IEnumerable<Item>> { { "FashionNews", orderedResult ?? new List<Item>() } });
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
+            }
+        }
+
+        [HttpGet]
         [Route("ping")]
         public IActionResult GetPing()
         {
