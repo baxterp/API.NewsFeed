@@ -1,0 +1,17 @@
+﻿https://techcrunch.com/feed/
+https://www.wired.com/feed/rss
+https://in.mashable.com/sleep.xml
+https://www.cnet.com/rss/news/
+https://www.engadget.com/rss.xml
+https://feeds.feedburner.com/venturebeat/SZYF
+https://www.geekwire.com/feed/
+https://jaypeeonline.net/feed/
+https://feeds.arstechnica.com/arstechnica/technology-lab
+https://theadstacker.com/feed
+https://www.ishir.com/feed
+https://tecuy.com/feed/
+https://www.techeblog.com/feed/
+https://rmonnetworks.com/feed/
+https://www.techradar.com/uk/feeds/articletype/news
+https://www.techradar.com/uk/feeds/tag/computing
+https://www.techradar.com/uk/feeds/tag/smart-home

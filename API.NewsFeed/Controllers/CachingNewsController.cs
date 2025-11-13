@@ -154,20 +154,20 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
-        [Route("fashionnews")]
-        public async Task<IActionResult> GetFashionNews()
+        [Route("technews")]
+        public async Task<IActionResult> GetTechNews()
         {
             try
             {
                 string currentDirectory = Directory.GetCurrentDirectory();
-                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\FashionNews.txt");
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\TechNews.txt");
 
-                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "FashionNews", feeds);
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "TechNews", feeds);
                 result = result?.OrderByDescending(o => o.PubDate)
                     .ThenByDescending(t => t.Description != string.Empty)
                     .AsEnumerable().ToList() ?? new();
 
-                JsonToFileHelper.WriteJsonToFile("FashionNews", result, "CachedJsonDataExtended");
+                JsonToFileHelper.WriteJsonToFile("TechNews", result, "CachedJsonDataExtended");
 
                 return Ok();
             }

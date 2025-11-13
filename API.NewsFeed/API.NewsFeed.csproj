@@ -23,7 +23,7 @@
     <None Update="Feeds\CryptoNews.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Feeds\FashionNews.txt">
+    <None Update="Feeds\TechNews.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Feeds\F1News.txt">

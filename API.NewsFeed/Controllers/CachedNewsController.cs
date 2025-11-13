@@ -179,13 +179,13 @@ namespace API.NewsFeed.Controllers
         }
 
         [HttpGet]
-        [Route("fashionnews")]
-        [Route("fashionnews/{numberOfRecords}/{numberOfDays}")]
+        [Route("technews")]
+        [Route("technews/{numberOfRecords}/{numberOfDays}")]
         public IActionResult GetFashionNews(int? numberOfRecords = null, int? numberOfDays = null)
         {
             try
             {
-                var result = JsonToFileHelper.ReadJsonFromFileForCach("FashionNews");
+                var result = JsonToFileHelper.ReadJsonFromFileForCach("TechNews");
                 var orderedResult = result?.OrderByDescending(o => o.PubDate)
                                     .ThenByDescending(t => t.Description != string.Empty)
                                     .AsEnumerable();
@@ -198,7 +198,7 @@ namespace API.NewsFeed.Controllers
                 else if (numberOfRecords == null && numberOfDays == null)
                     orderedResult = orderedResult?.Take(10);
 
-                return Ok(new Dictionary<string, IEnumerable<Item>> { { "FashionNews", orderedResult ?? new List<Item>() } });
+                return Ok(new Dictionary<string, IEnumerable<Item>> { { "TechNews", orderedResult ?? new List<Item>() } });
             }
             catch (Exception)
             {
