@@ -28,7 +28,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "CryptoNews", orderedResult ?? new List<Item>() } });
             }
@@ -56,7 +57,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "PremNews", orderedResult ?? new List<Item>() } });
             }
@@ -84,7 +86,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "F1News", orderedResult ?? new List<Item>() } });
             }
@@ -112,7 +115,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "WECNews", orderedResult ?? new List<Item>() } });
             }
@@ -140,7 +144,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "MotoGPNews", orderedResult ?? new List<Item>() } });
             }
@@ -168,7 +173,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "UKNews", orderedResult ?? new List<Item>() } });
             }
@@ -196,7 +202,8 @@ namespace API.NewsFeed.Controllers
                     orderedResult = orderedResult?
                         .Where(o => o.PubDate > DateTime.Now - new TimeSpan((int)numberOfDays, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second));
                 else if (numberOfRecords == null && numberOfDays == null)
-                    orderedResult = orderedResult?.Take(10);
+                    orderedResult = orderedResult?.OrderByDescending(o => !string.IsNullOrEmpty(o.ImageURL))
+                                    .ThenByDescending(t => t.PubDate).Take(10);
 
                 return Ok(new Dictionary<string, IEnumerable<Item>> { { "TechNews", orderedResult ?? new List<Item>() } });
             }

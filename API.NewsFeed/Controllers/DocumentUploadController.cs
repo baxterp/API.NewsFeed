@@ -34,7 +34,7 @@ namespace API.NewsFeed.Controllers
                 return BadRequest("No content found in the document");
 
             OpenAIHelper openAIHelper = new OpenAIHelper();
-            string systemPrompt = "You are required to summerise the following text, in no more 100 words";
+            string systemPrompt = "You are required to summerise the following text, in no more 500 words";
             string userPrompt = text;
 
             var systemMessage = new ChatMessage(ChatMessageRole.System, systemPrompt);
