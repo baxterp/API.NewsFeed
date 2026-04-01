@@ -19,9 +19,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\CryptoNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "CryptoNews", feeds) ?? new();
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("CryptoNews", result, "CachedJsonDataExtended");
 
@@ -43,9 +41,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\PremNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "PremNews", feeds) ?? new();
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("PremNews", result, "CachedJsonDataExtended");
 
@@ -67,9 +63,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\F1News.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "Formula 1", feeds);
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("F1News", result, "CachedJsonDataExtended");
 
@@ -91,9 +85,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\WecNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "WEC", feeds);
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("WEC", result, "CachedJsonDataExtended");
 
@@ -115,9 +107,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\MotoGPNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "MotoGP", feeds);
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("MotoGP", result, "CachedJsonDataExtended");
 
@@ -139,9 +129,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\UKNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "UKNews", feeds);
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("UKNews", result, "CachedJsonDataExtended");
 
@@ -163,9 +151,7 @@ namespace API.NewsFeed.Controllers
                 IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\TechNews.txt");
 
                 var result = await RSSReader.ReadRSSFeeds(currentDirectory, "TechNews", feeds);
-                result = result?.OrderByDescending(o => o.PubDate)
-                    .ThenByDescending(t => t.Description != string.Empty)
-                    .AsEnumerable().ToList() ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
 
                 JsonToFileHelper.WriteJsonToFile("TechNews", result, "CachedJsonDataExtended");
 
