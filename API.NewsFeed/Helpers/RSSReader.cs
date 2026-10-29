@@ -27,29 +27,35 @@ namespace API.NewsFeed.Helpers
                     var response = await client.GetAsync(feed, timeoutCts.Token);
                     if (response.IsSuccessStatusCode)
                     {
-                        string xmlData = await response.Content.ReadAsStringAsync(timeoutCts.Token);
-                        XMLRssFeed rss = XMLParser.ParseXml(xmlData);
-                        RssFeed rssFeed = await XMLtoJSONMapper.MapXMLtoJSON(rss, category);
-
-                        Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 420), 
-                            new ParallelOptions { CancellationToken = token }, item =>
+                        try
                         {
-                            token.ThrowIfCancellationRequested();
-                            DateTime pubDate = DateTime.Now;
-                            DateTime.TryParse(item.PubDate.ToString("yyyy MM dd"), out pubDate);
-                            if (pubDate > DateTime.Now - new TimeSpan(28, 0, 0, 0))
-                            {
-                                concurrentItems.Add(new Item
+                            string xmlData = await response.Content.ReadAsStringAsync(timeoutCts.Token);
+                            XMLRssFeed rss = XMLParser.ParseXml(xmlData);
+                            RssFeed rssFeed = await XMLtoJSONMapper.MapXMLtoJSON(rss, category);
+
+                            Parallel.ForEach(rssFeed.Channel.Items.TakeWhile(_ => concurrentItems.Count <= 420),
+                                new ParallelOptions { CancellationToken = token }, item =>
                                 {
-                                    Title = item.Title ?? string.Empty,
-                                    Link = item.Link ?? string.Empty,
-                                    Description = item.Description.Contains("<") ? string.Empty : item.Description,
-                                    Category = item.Category ?? category,
-                                    PubDate = pubDate,
-                                    ImageURL = item.ImageURL ?? string.Empty,
+                                    token.ThrowIfCancellationRequested();
+                                    DateTime pubDate = DateTime.Now;
+                                    DateTime.TryParse(item.PubDate.ToString("yyyy MM dd"), out pubDate);
+                                    if (pubDate > DateTime.Now - new TimeSpan(28, 0, 0, 0))
+                                    {
+                                        concurrentItems.Add(new Item
+                                        {
+                                            Title = item.Title ?? string.Empty,
+                                            Link = item.Link ?? string.Empty,
+                                            Description = item.Description.Contains("<") ? string.Empty : item.Description,
+                                            Category = item.Category ?? category,
+                                            PubDate = pubDate,
+                                            ImageURL = item.ImageURL ?? string.Empty,
+                                        });
+                                    }
                                 });
-                            }
-                        });
+                        }
+                        catch (Exception)
+                        {
+                        }
                     }
                 }
                 catch (OperationCanceledException ex)
