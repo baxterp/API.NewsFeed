@@ -10,6 +10,28 @@ namespace API.NewsFeed.Controllers
     public class CachingNewsController : ControllerBase
     {
         [HttpGet]
+        [Route("simracingnews")]
+        public async Task<IActionResult> GetSimRacingNews()
+        {
+            try
+            {
+                string currentDirectory = Directory.GetCurrentDirectory();
+                IEnumerable<string> feeds = System.IO.File.ReadAllLines(currentDirectory + @"\Feeds\SimRacingNews.txt");
+
+                var result = await RSSReader.ReadRSSFeeds(currentDirectory, "SimRacingNews", feeds) ?? new();
+                result = RSSItemsHelper.OrderItemsByPubDateAndDescription(result);
+
+                JsonToFileHelper.WriteJsonToFile("SimRacingNews", result, "CachedJsonDataExtended");
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+        }
+
+        [HttpGet]
         [Route("cryptonews")]
         public async Task<IActionResult> GetCryptoNews()
         {
